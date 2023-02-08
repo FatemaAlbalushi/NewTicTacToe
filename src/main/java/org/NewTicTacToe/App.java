@@ -31,7 +31,14 @@ public class App {
 
         // Try to load the saved game state, if it exists
         Board board = STATE_MANAGER.loadGameState();
-        if (board == null) {
+        if (board != null) {
+            System.out.println("A saved game state was found. Do you want to complete the previous play? (y/n)");
+            String chose = SCANNER.nextLine();
+            if (!chose.equalsIgnoreCase("y")) {
+                STATE_MANAGER.deleteGameState(board);
+                board = new Board();
+            }
+        } else {
             // If there is no saved game state, create a new board
             board = new Board();
         }
@@ -68,7 +75,9 @@ public class App {
                 int col = Integer.parseInt(input.split(" ")[1]) - 1;
                 if (board.isValidMove(row, col)) {
                     board.makeMove(row, col, currentPlayer.getSymbol());
+                    STATE_MANAGER.saveGameState(board,player1Name,player2Name);
                     currentPlayer = currentPlayer == player1 ? player2 : player1;
+
                 } else {
                     System.out.println("Invalid move, try again.");
                 }
