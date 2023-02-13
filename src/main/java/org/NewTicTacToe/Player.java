@@ -14,7 +14,6 @@ public class Player {
 
     /**
      * Creates a new Player with the given name and symbol.
-     *
      * @param name the name of the Player
      * @param symbol the symbol that represents the Player's moves on the Board
      */
