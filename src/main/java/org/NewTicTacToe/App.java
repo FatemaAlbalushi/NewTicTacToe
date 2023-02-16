@@ -46,11 +46,32 @@ public class App {
         System.out.println("Enter name for Player 1: ");
         String player1Name = SCANNER.nextLine();
 
-        System.out.println("Enter name for Player 2: ");
-        String player2Name = SCANNER.nextLine();
+        boolean isBot = false;
+        int level = 0;
+        System.out.println("Do you want to play against the bot? (y/n)");
+        String usinput = SCANNER.nextLine();
+        if (usinput.equalsIgnoreCase("y")) {
+            isBot = true;
+            System.out.println("Choose the difficulty level: 1 - easy, 2 - medium, 3 - hard");
+            level = Integer.parseInt(SCANNER.nextLine());
+        }
+
+        String player2Name = "";
+        Player player2;
+        if (isBot) {
+            player2Name = "Bot";
+            player2 = new BotPlayer(player2Name, Symbol.O, level);
+        } else {
+             System.out.println("Enter name for Player 2: ");
+            player2Name = SCANNER.nextLine();
+            player2 = new Player(player2Name, Symbol.getSymbolFromUser());
+        }
+
+//        System.out.println("Enter name for Player 2: ");
+//        String player2Name = SCANNER.nextLine();
 
         Player player1 = new Player(player1Name, Symbol.getSymbolFromUser());
-        Player player2 = new Player(player2Name, Symbol.getSymbolFromUser());
+        //Player player2 = new Player(player2Name, Symbol.getSymbolFromUser());
 
 
         Player currentPlayer = player1;
@@ -60,31 +81,89 @@ public class App {
             System.out.println(board);
 
             System.out.println(currentPlayer.getName() + " (" + currentPlayer.getSymbol() + "), it's your turn.");
-            System.out.println("Enter row and column (e.g. 1 1) or q to quit::");
-            String input = SCANNER.nextLine();
-
-            if (input.equals("q")) {
+            if (isBot && currentPlayer == player2) {
+                currentPlayer.makeMove(board);
                 STATE_MANAGER.saveGameState(board, player1Name, player2Name);
-                isQuit = true;
-                break;
+                currentPlayer = player1;
+            } else {
 
-            }
-
-            try {
-                int row = Integer.parseInt(input.split(" ")[0]) - 1;
-                int col = Integer.parseInt(input.split(" ")[1]) - 1;
-                if (board.isValidMove(row, col)) {
-                    board.makeMove(row, col, currentPlayer.getSymbol());
-                    STATE_MANAGER.saveGameState(board,player1Name,player2Name);
-                    currentPlayer = currentPlayer == player1 ? player2 : player1;
-
-                } else {
-                    System.out.println("Invalid move, try again.");
+                System.out.println("Enter row and column (e.g. 1 1) or q to quit:");
+                String input = SCANNER.nextLine();
+                if (input.equals("q")) {
+                    STATE_MANAGER.saveGameState(board, player1Name, player2Name);
+                    isQuit = true;
+                    break;
                 }
-            } catch (Exception e) {
-                System.out.println("Invalid input, try again.");
+                try {
+                    int row = Integer.parseInt(input.split(" ")[0]) - 1;
+                    int col = Integer.parseInt(input.split(" ")[1]) - 1;
+                    if (board.isValidMove(row, col)) {
+                        board.makeMove(row, col, currentPlayer.getSymbol());
+                        STATE_MANAGER.saveGameState(board, player1Name, player2Name);
+                        currentPlayer = currentPlayer == player1 ? player2 : player1;
+                    } else {
+                        System.out.println("Invalid move, try again.");
+                    }
+                } catch (Exception e) {
+                    System.out.println("Invalid input, try again.");
+                }
             }
         }
+
+//        while (!board.isGameOver() && !isQuit) {
+//            System.out.println(board);
+//
+//            if (isBot && currentPlayer.getSymbol() == Symbol.O) {
+//                // Bot's turn
+//                System.out.println("Bot is thinking...");
+//                BotMove botMove = BotPlayer.getNextMove(board, level, Symbol.O);
+//                board.makeMove(botMove.getRow(), botMove.getCol(), Symbol.O);
+//                System.out.println("Bot played " + (botMove.getRow() + 1) + " " + (botMove.getCol() + 1));
+//                currentPlayer = player1;
+//            }
+//            else {
+//                try {
+//                    int row = Integer.parseInt(input.split(" ")[0]) - 1;
+//                    int col = Integer.parseInt(input.split(" ")[1]) - 1;
+//                    if (board.isValidMove(row, col)) {
+//                        board.makeMove(row, col, currentPlayer.getSymbol());
+//                        STATE_MANAGER.saveGameState(board, player1Name, player2Name);
+//                        currentPlayer = currentPlayer == player1 ? player2 : player1;
+//                    } else {
+//                        System.out.println("Invalid move, try again.");
+//                    }
+//                } catch (Exception e) {
+//                    System.out.println("Invalid input, try again.");
+//                }
+//            }
+//
+//
+//            System.out.println(currentPlayer.getName() + " (" + currentPlayer.getSymbol() + "), it's your turn.");
+//            System.out.println("Enter row and column (e.g. 1 1) or q to quit::");
+//            String Uinput = SCANNER.nextLine();
+//
+//            if (Uinput.equals("q")) {
+//                STATE_MANAGER.saveGameState(board, player1Name, player2Name);
+//                isQuit = true;
+//                break;
+//
+//            }
+//
+//            try {
+//                int row = Integer.parseInt(input.split(" ")[0]) - 1;
+//                int col = Integer.parseInt(input.split(" ")[1]) - 1;
+//                if (board.isValidMove(row, col)) {
+//                    board.makeMove(row, col, currentPlayer.getSymbol());
+//                    STATE_MANAGER.saveGameState(board,player1Name,player2Name);
+//                    currentPlayer = currentPlayer == player1 ? player2 : player1;
+//
+//                } else {
+//                    System.out.println("Invalid move, try again.");
+//                }
+//            } catch (Exception e) {
+//                System.out.println("Invalid input, try again.");
+//            }
+       // }
 
         System.out.println(board);
         if (!isQuit) {
