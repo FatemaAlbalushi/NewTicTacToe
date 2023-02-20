@@ -67,13 +67,9 @@ public class App {
             player2 = new Player(player2Name, Symbol.getSymbolFromUser());
         }
 
-//        System.out.println("Enter name for Player 2: ");
-//        String player2Name = SCANNER.nextLine();
+
 
         Player player1 = new Player(player1Name, Symbol.getSymbolFromUser());
-        //Player player2 = new Player(player2Name, Symbol.getSymbolFromUser());
-
-
         Player currentPlayer = player1;
 
         boolean isQuit = false;
@@ -109,61 +105,6 @@ public class App {
                 }
             }
         }
-
-//        while (!board.isGameOver() && !isQuit) {
-//            System.out.println(board);
-//
-//            if (isBot && currentPlayer.getSymbol() == Symbol.O) {
-//                // Bot's turn
-//                System.out.println("Bot is thinking...");
-//                BotMove botMove = BotPlayer.getNextMove(board, level, Symbol.O);
-//                board.makeMove(botMove.getRow(), botMove.getCol(), Symbol.O);
-//                System.out.println("Bot played " + (botMove.getRow() + 1) + " " + (botMove.getCol() + 1));
-//                currentPlayer = player1;
-//            }
-//            else {
-//                try {
-//                    int row = Integer.parseInt(input.split(" ")[0]) - 1;
-//                    int col = Integer.parseInt(input.split(" ")[1]) - 1;
-//                    if (board.isValidMove(row, col)) {
-//                        board.makeMove(row, col, currentPlayer.getSymbol());
-//                        STATE_MANAGER.saveGameState(board, player1Name, player2Name);
-//                        currentPlayer = currentPlayer == player1 ? player2 : player1;
-//                    } else {
-//                        System.out.println("Invalid move, try again.");
-//                    }
-//                } catch (Exception e) {
-//                    System.out.println("Invalid input, try again.");
-//                }
-//            }
-//
-//
-//            System.out.println(currentPlayer.getName() + " (" + currentPlayer.getSymbol() + "), it's your turn.");
-//            System.out.println("Enter row and column (e.g. 1 1) or q to quit::");
-//            String Uinput = SCANNER.nextLine();
-//
-//            if (Uinput.equals("q")) {
-//                STATE_MANAGER.saveGameState(board, player1Name, player2Name);
-//                isQuit = true;
-//                break;
-//
-//            }
-//
-//            try {
-//                int row = Integer.parseInt(input.split(" ")[0]) - 1;
-//                int col = Integer.parseInt(input.split(" ")[1]) - 1;
-//                if (board.isValidMove(row, col)) {
-//                    board.makeMove(row, col, currentPlayer.getSymbol());
-//                    STATE_MANAGER.saveGameState(board,player1Name,player2Name);
-//                    currentPlayer = currentPlayer == player1 ? player2 : player1;
-//
-//                } else {
-//                    System.out.println("Invalid move, try again.");
-//                }
-//            } catch (Exception e) {
-//                System.out.println("Invalid input, try again.");
-//            }
-       // }
 
         System.out.println(board);
         if (!isQuit) {
